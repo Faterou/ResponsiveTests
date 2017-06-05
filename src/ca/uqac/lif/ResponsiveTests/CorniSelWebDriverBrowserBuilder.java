@@ -1,5 +1,8 @@
 package ca.uqac.lif.ResponsiveTests;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Provider;
 
@@ -13,6 +16,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSortedSet;
 
 import ca.uqac.lif.CorniSel.CorniSelWebDriver;
+import ca.uqac.lif.CorniSel.EvaluationListener;
 import ca.uqac.lif.cornipickle.CornipickleParser.ParseException;
 
 import org.openqa.selenium.WebDriver;
@@ -25,7 +29,7 @@ import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;;
+import org.slf4j.LoggerFactory;
 
 /**
  * Default implementation of the EmbeddedBrowserBuilder based on Selenium WebDriver API.
@@ -33,14 +37,14 @@ import org.slf4j.LoggerFactory;;
 public class CorniSelWebDriverBrowserBuilder implements Provider<EmbeddedBrowser> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CorniSelWebDriverBrowserBuilder.class);
-	private final CrawljaxConfiguration configuration;
-	private final Plugins plugins;
+	@Inject private CrawljaxConfiguration configuration;
+	@Inject private Plugins plugins;
 	private String corniProperties;
-
-	@Inject
-	public CorniSelWebDriverBrowserBuilder(CrawljaxConfiguration configuration, Plugins plugins) {
-		this.configuration = configuration;
-		this.plugins = plugins;
+	private List<EvaluationListener> listeners;
+	
+	public CorniSelWebDriverBrowserBuilder(String properties) {
+		corniProperties = properties;
+		listeners = new ArrayList<EvaluationListener>();
 	}
 	
 	public void setProperties(String properties) {
@@ -71,6 +75,9 @@ public class CorniSelWebDriverBrowserBuilder implements Provider<EmbeddedBrowser
 					break;
 				case INTERNET_EXPLORER:
 					CorniSelWebDriver corniSelDriver = new CorniSelWebDriver(new InternetExplorerDriver());
+					for(EvaluationListener listener : listeners) {
+						corniSelDriver.addListener(listener);
+					}
 					try {
 						corniSelDriver.setCornipickleProperties(this.corniProperties);
 					} catch(ParseException e) {
@@ -106,6 +113,10 @@ public class CorniSelWebDriverBrowserBuilder implements Provider<EmbeddedBrowser
 		plugins.runOnBrowserCreatedPlugins(browser);
 		return browser;
 	}
+	
+	public void addEvaluationListener(EvaluationListener listener) {
+		listeners.add(listener);
+	}
 
 	private EmbeddedBrowser newFireFoxBrowser(ImmutableSortedSet<String> filterAttributes,
 	        long crawlWaitReload, long crawlWaitEvent) {
@@ -126,6 +137,10 @@ public class CorniSelWebDriverBrowserBuilder implements Provider<EmbeddedBrowser
 			profile.setPreference("network.proxy.no_proxies_on", "");
 			
 			CorniSelWebDriver corniSelDriver = new CorniSelWebDriver(new FirefoxDriver(profile));
+			for(EvaluationListener listener : listeners) {
+				corniSelDriver.addListener(listener);
+			}
+			
 			try {
 				corniSelDriver.setCornipickleProperties(this.corniProperties);
 			} catch(ParseException e) {
@@ -159,6 +174,9 @@ public class CorniSelWebDriverBrowserBuilder implements Provider<EmbeddedBrowser
 		}
 		
 		CorniSelWebDriver corniSelDriver = new CorniSelWebDriver(driverChrome);
+		for(EvaluationListener listener : listeners) {
+			corniSelDriver.addListener(listener);
+		}
 		try {
 			corniSelDriver.setCornipickleProperties(this.corniProperties);
 		} catch(ParseException e) {
@@ -188,6 +206,9 @@ public class CorniSelWebDriverBrowserBuilder implements Provider<EmbeddedBrowser
 		PhantomJSDriver phantomJsDriver = new PhantomJSDriver(caps);
 		
 		CorniSelWebDriver corniSelDriver = new CorniSelWebDriver(phantomJsDriver);
+		for(EvaluationListener listener : listeners) {
+			corniSelDriver.addListener(listener);
+		}
 		try {
 			corniSelDriver.setCornipickleProperties(this.corniProperties);
 		} catch(ParseException e) {
