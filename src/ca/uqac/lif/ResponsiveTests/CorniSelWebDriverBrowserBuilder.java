@@ -35,6 +35,8 @@ import org.slf4j.LoggerFactory;
  * Default implementation of the EmbeddedBrowserBuilder based on Selenium WebDriver API.
  */
 public class CorniSelWebDriverBrowserBuilder implements Provider<EmbeddedBrowser> {
+	
+	public static CorniSelWebDriver corniSelDriver;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CorniSelWebDriverBrowserBuilder.class);
 	@Inject private CrawljaxConfiguration configuration;
@@ -74,7 +76,7 @@ public class CorniSelWebDriverBrowserBuilder implements Provider<EmbeddedBrowser
 					        newFireFoxBrowser(filterAttributes, crawlWaitReload, crawlWaitEvent);
 					break;
 				case INTERNET_EXPLORER:
-					CorniSelWebDriver corniSelDriver = new CorniSelWebDriver(new InternetExplorerDriver());
+					corniSelDriver = new CorniSelWebDriver(new InternetExplorerDriver());
 					for(EvaluationListener listener : listeners) {
 						corniSelDriver.addListener(listener);
 					}
@@ -136,7 +138,7 @@ public class CorniSelWebDriverBrowserBuilder implements Provider<EmbeddedBrowser
 			/* use proxy for everything, including localhost */
 			profile.setPreference("network.proxy.no_proxies_on", "");
 			
-			CorniSelWebDriver corniSelDriver = new CorniSelWebDriver(new FirefoxDriver(profile));
+			corniSelDriver = new CorniSelWebDriver(new FirefoxDriver(profile));
 			for(EvaluationListener listener : listeners) {
 				corniSelDriver.addListener(listener);
 			}
@@ -173,7 +175,7 @@ public class CorniSelWebDriverBrowserBuilder implements Provider<EmbeddedBrowser
 			driverChrome = new ChromeDriver();
 		}
 		
-		CorniSelWebDriver corniSelDriver = new CorniSelWebDriver(driverChrome);
+		corniSelDriver = new CorniSelWebDriver(driverChrome);
 		for(EvaluationListener listener : listeners) {
 			corniSelDriver.addListener(listener);
 		}
@@ -205,7 +207,7 @@ public class CorniSelWebDriverBrowserBuilder implements Provider<EmbeddedBrowser
 		
 		PhantomJSDriver phantomJsDriver = new PhantomJSDriver(caps);
 		
-		CorniSelWebDriver corniSelDriver = new CorniSelWebDriver(phantomJsDriver);
+		corniSelDriver = new CorniSelWebDriver(phantomJsDriver);
 		for(EvaluationListener listener : listeners) {
 			corniSelDriver.addListener(listener);
 		}

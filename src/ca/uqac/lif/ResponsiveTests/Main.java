@@ -1,5 +1,7 @@
 package ca.uqac.lif.ResponsiveTests;
 
+import org.openqa.selenium.Dimension;
+
 import com.crawljax.browser.EmbeddedBrowser.BrowserType;
 import com.crawljax.core.CrawljaxRunner;
 import com.crawljax.core.configuration.BrowserConfiguration;
@@ -13,6 +15,8 @@ public class Main{
 		
 		CorniSelWebDriverBrowserBuilder corniSelBrowserBuilder = new CorniSelWebDriverBrowserBuilder("");
 		corniSelBrowserBuilder.addEvaluationListener(new CorniSelWebDriverListener(System.getProperty("user.dir") + "/out/out.txt"));
+		
+		builder.addPlugin(new OnNewStateSizeChanger(new Dimension(400,1000), new Dimension(1300,1000), 50));
 		
 		builder.setBrowserConfig(new BrowserConfiguration(BrowserType.CHROME, 1, corniSelBrowserBuilder));
 		builder.crawlRules().dontClick("a").underXPath("//DIV[@id='guser']");
