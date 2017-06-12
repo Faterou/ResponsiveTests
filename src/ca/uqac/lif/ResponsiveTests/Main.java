@@ -255,7 +255,7 @@ public class Main{
 				.longOpt("browser")
 				.argName("browser")
 				.hasArg()
-				.desc("Test with browser (firefox, chrome, ph) (default: " + s_defaultBrowser +")")
+				.desc("Test with browser (firefox, chrome, phantomjs, internetexplorer) (default: " + s_defaultBrowser +")")
 				.build();
 		options.addOption(opt);
 		opt = Option.builder("v")
