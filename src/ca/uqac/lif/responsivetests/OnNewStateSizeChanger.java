@@ -1,4 +1,4 @@
-package ca.uqac.lif.ResponsiveTests;
+package ca.uqac.lif.responsivetests;
 
 import org.openqa.selenium.Dimension;
 
@@ -7,7 +7,7 @@ import com.crawljax.core.plugin.OnNewStatePlugin;
 import com.crawljax.core.plugin.Plugin;
 import com.crawljax.core.state.StateVertex;
 
-import ca.uqac.lif.CorniSel.CorniSelWebDriver;
+import ca.uqac.lif.cornisel.CorniSelWebDriver;
 
 public class OnNewStateSizeChanger implements Plugin, OnNewStatePlugin {
 	
@@ -26,8 +26,6 @@ public class OnNewStateSizeChanger implements Plugin, OnNewStatePlugin {
 	
 	public void onNewState(CrawlerContext context, StateVertex newState) {
 		CorniSelWebDriver driver = CorniSelWebDriverBrowserBuilder.corniSelDriver;
-		
-		System.out.println("NEW STATE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		
 		if(m_initialDimension == null) {
 			m_initialDimension = driver.manage().window().getSize();

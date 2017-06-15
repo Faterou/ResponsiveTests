@@ -1,4 +1,4 @@
-package ca.uqac.lif.ResponsiveTests;
+package ca.uqac.lif.responsivetests;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -11,15 +11,12 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.crawljax.browser.EmbeddedBrowser.BrowserType;
 import com.crawljax.core.CrawljaxRunner;
 import com.crawljax.core.configuration.BrowserConfiguration;
 import com.crawljax.core.configuration.CrawljaxConfiguration;
 
-import ca.uqac.lif.CorniSel.CorniSelWebDriver;
 import ca.uqac.lif.cornipickle.util.AnsiPrinter;
 import ca.uqac.lif.util.FileReadWrite;
 
@@ -59,7 +56,7 @@ public class Main{
 	/**
 	 * Default upper bound
 	 */
-	protected static int s_defaultUpperBound = 1920;
+	protected static int s_defaultUpperBound = 1600;
 	
 	/**
 	 * Default interval
@@ -173,7 +170,7 @@ public class Main{
 			}
 		}
 		
-		CrawljaxConfiguration.CrawljaxConfigurationBuilder builder = CrawljaxConfiguration.builderFor("https://www.xkcd.com");
+		CrawljaxConfiguration.CrawljaxConfigurationBuilder builder = CrawljaxConfiguration.builderFor(sourceUrl);
 		builder.crawlRules().insertRandomDataInInputForms(false);
 		
 		CorniSelWebDriverBrowserBuilder corniSelBrowserBuilder = new CorniSelWebDriverBrowserBuilder("");

@@ -1,4 +1,4 @@
-package ca.uqac.lif.ResponsiveTests;
+package ca.uqac.lif.responsivetests;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +15,10 @@ import com.crawljax.core.plugin.Plugins;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSortedSet;
 
-import ca.uqac.lif.CorniSel.CorniSelWebDriver;
-import ca.uqac.lif.CorniSel.EvaluationListener;
 import ca.uqac.lif.cornipickle.CornipickleParser.ParseException;
+import ca.uqac.lif.cornisel.CorniSelWebDriver;
+import ca.uqac.lif.cornisel.EvaluationListener;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;

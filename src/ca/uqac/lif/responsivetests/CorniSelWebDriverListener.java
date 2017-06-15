@@ -1,12 +1,12 @@
-package ca.uqac.lif.ResponsiveTests;
+package ca.uqac.lif.responsivetests;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import ca.uqac.lif.CorniSel.CorniSelWebDriver;
-import ca.uqac.lif.CorniSel.EvaluationListener;
 import ca.uqac.lif.cornipickle.Interpreter;
+import ca.uqac.lif.cornisel.CorniSelWebDriver;
+import ca.uqac.lif.cornisel.EvaluationListener;
 
 class CorniSelWebDriverListener implements EvaluationListener {
 	private String m_filename;
