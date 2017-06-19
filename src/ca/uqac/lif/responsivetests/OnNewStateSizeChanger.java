@@ -29,25 +29,23 @@ public class OnNewStateSizeChanger implements Plugin, OnNewStatePlugin {
 		
 		if(m_initialDimension == null) {
 			m_initialDimension = driver.manage().window().getSize();
+			driver.manage().window().setSize(m_maximumDimension);
 		}
 		
 		//Go to lower bound with interval
 		while(driver.manage().window().getSize().width - m_interval > m_minimumDimension.width) {
 			driver.manage().window().setSize(new Dimension(driver.manage().window().getSize().width - m_interval,
 				driver.manage().window().getSize().height));
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			driver.evaluateAll(null);
 		}
 		
-		driver.manage().window().setSize(m_initialDimension);
-		
-		//Go to upper bound with interval
-		while(driver.manage().window().getSize().width + m_interval < m_maximumDimension.width) {
-			driver.manage().window().setSize(new Dimension(driver.manage().window().getSize().width + m_interval,
-				driver.manage().window().getSize().height));
-			driver.evaluateAll(null);
-		}
-		
-		driver.manage().window().setSize(m_initialDimension);
+		driver.manage().window().setSize(m_maximumDimension);
 	}
 	
 }
