@@ -1,8 +1,10 @@
 package ca.uqac.lif.responsivetests;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
+import java.util.Scanner;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -18,7 +20,6 @@ import com.crawljax.core.configuration.BrowserConfiguration;
 import com.crawljax.core.configuration.CrawljaxConfiguration;
 
 import ca.uqac.lif.cornipickle.util.AnsiPrinter;
-import ca.uqac.lif.util.FileReadWrite;
 
 public class Main{
 	
@@ -163,7 +164,7 @@ public class Main{
 			stdout.setForegroundColor(AnsiPrinter.Color.BROWN);
 			stdout.println("Reading properties in " + filename);
 			try {
-				properties.concat(FileReadWrite.readFile(filename));
+				properties.concat(readFile(new File(filename)));
 			} catch (IOException e) {
 				stderr.println("ERROR: Couldn't open " + filename);
 				System.exit(ERR_ARGUMENTS);
@@ -299,5 +300,37 @@ public class Main{
 	{
 		HelpFormatter hf = new HelpFormatter();
 		hf.printHelp("java -jar ResponsiveTests.jar [options] [file1 [file2 ...]]", options);
+	}
+	
+	/**
+	 * Reads a file and puts its contents in a string
+	 * @param f The file to read
+	 * @return The file's contents, and empty string if the file
+	 * does not exist
+	 * @throws IOException If the reading fails
+	 */
+	private static String readFile(File f) throws IOException
+	{
+		Scanner scanner = null;
+		StringBuilder out = new StringBuilder();
+		try
+		{
+			scanner = new java.util.Scanner(f);
+			while (scanner.hasNextLine())
+			{
+				String line = scanner.nextLine();
+				out.append(line).append(System.getProperty("line.separator"));
+			}
+		}
+		catch (java.io.IOException e)
+		{
+			throw e;
+		}
+		finally
+		{
+			if (scanner != null)
+				scanner.close();
+		}
+		return out.toString();
 	}
 }
