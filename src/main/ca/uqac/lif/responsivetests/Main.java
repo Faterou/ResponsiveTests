@@ -164,7 +164,7 @@ public class Main{
 			stdout.setForegroundColor(AnsiPrinter.Color.BROWN);
 			stdout.println("Reading properties in " + filename);
 			try {
-				properties.concat(readFile(new File(filename)));
+				properties = properties.concat(readFile(new File(filename)) + "\n");
 			} catch (IOException e) {
 				stderr.println("ERROR: Couldn't open " + filename);
 				System.exit(ERR_ARGUMENTS);
@@ -174,7 +174,7 @@ public class Main{
 		CrawljaxConfiguration.CrawljaxConfigurationBuilder builder = CrawljaxConfiguration.builderFor(sourceUrl);
 		builder.crawlRules().insertRandomDataInInputForms(false);
 		
-		CorniSelWebDriverBrowserBuilder corniSelBrowserBuilder = new CorniSelWebDriverBrowserBuilder("");
+		CorniSelWebDriverBrowserBuilder corniSelBrowserBuilder = new CorniSelWebDriverBrowserBuilder(properties);
 		corniSelBrowserBuilder.addEvaluationListener(new CorniSelWebDriverListener(outputFilename));
 		
 		builder.addPlugin(new OnNewStateSizeChanger(new Dimension(lowerBound,1000), new Dimension(upperBound,1000), interval));
