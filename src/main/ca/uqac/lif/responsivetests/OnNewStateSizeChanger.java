@@ -4,12 +4,13 @@ import org.openqa.selenium.Dimension;
 
 import com.crawljax.core.CrawlerContext;
 import com.crawljax.core.plugin.OnNewStatePlugin;
+import com.crawljax.core.plugin.OnRevisitStatePlugin;
 import com.crawljax.core.plugin.Plugin;
 import com.crawljax.core.state.StateVertex;
 
 import ca.uqac.lif.cornisel.CorniSelWebDriver;
 
-public class OnNewStateSizeChanger implements Plugin, OnNewStatePlugin {
+public class OnNewStateSizeChanger implements Plugin, OnNewStatePlugin, OnRevisitStatePlugin {
 	
 	private Dimension m_initialDimension;
 	private Dimension m_minimumDimension;
@@ -30,8 +31,9 @@ public class OnNewStateSizeChanger implements Plugin, OnNewStatePlugin {
 		if(m_initialDimension == null) {
 			m_initialDimension = driver.manage().window().getSize();
 			driver.manage().window().setSize(m_maximumDimension);
-			driver.evaluateAll(null);
 		}
+		
+		driver.evaluateAll(null);
 		
 		//Go to lower bound with interval
 		while(driver.manage().window().getSize().width - m_interval >= m_minimumDimension.width) {
@@ -48,5 +50,14 @@ public class OnNewStateSizeChanger implements Plugin, OnNewStatePlugin {
 		
 		driver.manage().window().setSize(m_maximumDimension);
 	}
+
+	@Override
+	public void onRevisitState(CrawlerContext context, StateVertex currentState) {
+		if(currentState.getId() == 0) {
+			CorniSelWebDriver driver = CorniSelWebDriverBrowserBuilder.corniSelDriver;
+			driver.resetHistory();
+		}
+	}
+
 	
 }
