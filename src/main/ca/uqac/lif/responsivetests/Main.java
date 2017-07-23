@@ -50,6 +50,11 @@ public class Main{
 	protected static String s_defaultOutputFilename = System.getProperty("user.dir") + "/out/out.txt";
 	
 	/**
+	 * Default output screenshot directory
+	 */
+	protected static String s_defaultScreenshotsDirectory = System.getProperty("user.dir") + "/out/screenshots/";
+	
+	/**
 	 * Default lower bound
 	 */
 	protected static int s_defaultLowerBound = 320;
@@ -75,6 +80,7 @@ public class Main{
 		String sourceUrl = s_defaultSourceUrl;
 		String browser = s_defaultBrowser;
 		String outputFilename = s_defaultOutputFilename;
+		String screenshotsDirectory = s_defaultScreenshotsDirectory;
 		int upperBound = s_defaultUpperBound;
 		int lowerBound = s_defaultLowerBound;
 		int interval = s_defaultInterval;
@@ -126,6 +132,10 @@ public class Main{
 		{
 			outputFilename = c_line.getOptionValue("o");
 		}
+		if(c_line.hasOption("f"))
+		{
+			screenshotsDirectory = c_line.getOptionValue("f");
+		}
 		if(c_line.hasOption("l"))
 		{
 			String cllowerBound = c_line.getOptionValue("l");
@@ -175,7 +185,7 @@ public class Main{
 		builder.crawlRules().insertRandomDataInInputForms(false);
 		
 		CorniSelWebDriverBrowserBuilder corniSelBrowserBuilder = new CorniSelWebDriverBrowserBuilder(properties);
-		corniSelBrowserBuilder.addEvaluationListener(new CorniSelWebDriverListener(outputFilename));
+		corniSelBrowserBuilder.addEvaluationListener(new CorniSelWebDriverListener(outputFilename, screenshotsDirectory));
 		
 		builder.addPlugin(new OnNewStateSizeChanger(new Dimension(lowerBound,1000), new Dimension(upperBound,1000), interval));
 		
@@ -239,33 +249,40 @@ public class Main{
 		Option opt;
 		opt = Option.builder("h")
 				.longOpt("help")
-				.desc("Display command line usage")
+				.desc("Displays command line usage")
 				.build();
 		options.addOption(opt);
 		opt = Option.builder("s")
 				.longOpt("source")
 				.argName("url")
 				.hasArg()
-				.desc("Set url to be the source to test (default: " + s_defaultSourceUrl + ")")
+				.desc("Sets url to be the source to test (default: " + s_defaultSourceUrl + ")")
 				.build();
 		options.addOption(opt);
 		opt = Option.builder("b")
 				.longOpt("browser")
 				.argName("browser")
 				.hasArg()
-				.desc("Test with browser (firefox, chrome, phantomjs, internetexplorer) (default: " + s_defaultBrowser +")")
+				.desc("Tests with browser (firefox, chrome, phantomjs, internetexplorer) (default: " + s_defaultBrowser +")")
 				.build();
 		options.addOption(opt);
 		opt = Option.builder("v")
 				.longOpt("version")
-				.desc("Show the application's version")
+				.desc("Shows the application's version")
 				.build();
 		options.addOption(opt);
 		opt = Option.builder("o")
 				.longOpt("output")
 				.argName("filename")
 				.hasArg()
-				.desc("Set output file's name (default: " + s_defaultOutputFilename + ")")
+				.desc("Sets output file's name (default: " + s_defaultOutputFilename + ")")
+				.build();
+		options.addOption(opt);
+		opt = Option.builder("f")
+				.longOpt("screenshots")
+				.argName("directory")
+				.hasArg()
+				.desc("Sets the directory for screenshots (default: " + s_defaultScreenshotsDirectory + ")")
 				.build();
 		options.addOption(opt);
 		opt = Option.builder("l")

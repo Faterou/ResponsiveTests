@@ -49,6 +49,12 @@ public class OnNewStateSizeChanger implements Plugin, OnNewStatePlugin, OnRevisi
 		}
 		
 		driver.manage().window().setSize(m_maximumDimension);
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
