@@ -15,7 +15,7 @@ We say that the list $x is aligned when (
 ).
 
 """
-  @name Misaligned list
+  @name Wrapping elements
   @description All lists that are aligned should always remain aligned
   @severity Warning
 """

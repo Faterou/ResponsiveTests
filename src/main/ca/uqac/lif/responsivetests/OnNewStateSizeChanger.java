@@ -26,12 +26,6 @@ public class OnNewStateSizeChanger implements Plugin, OnNewStatePlugin, OnRevisi
 	}
 	
 	public void onNewState(CrawlerContext context, StateVertex newState) {
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		CorniSelWebDriver driver = CorniSelWebDriverBrowserBuilder.corniSelDriver;
 		
 		if(m_initialDimension == null) {

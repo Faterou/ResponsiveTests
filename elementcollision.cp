@@ -34,12 +34,12 @@ We say that $x and $y aren't the same when (
 ).
 
 """
-  @name Overlapping elements
+  @name Element collision
   @description All items that aren't overlapping initially shouldn't ever overlap
   @severity Warning
 """
 Always (
-	For each $x in $(*) (
+	For each $x in $(body *) (
 		For each $y in $($x > *) (
 			For each $z in $($x > *) (
 				If ( ($y and $z aren't the same) And ($y and $z don't overlap) ) Then (
