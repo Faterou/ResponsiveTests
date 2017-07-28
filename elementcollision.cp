@@ -1,21 +1,28 @@
 We say that $x x-intersects $y when (
-  ($y's right is greater than $x's left)
+  (($y's right - 1) is greater than $x's left)
   And
-  ($x's right is greater than $y's left)
+  (($x's right - 1) is greater than $y's left)
 ).
 
 # Second condition
 We say that $x y-intersects $y when (
-  ($y's top is greater than $x's top)
+  (($y's bottom - 1) is greater than $x's top)
   And
-  ($x's bottom is greater than $y's top)
+  (($x's bottom - 1) is greater than $y's top)
 ).
 
-# Both must be true
+We say that $x is visible when (
+  Not ( $x's display is "none" )
+).
+
 We say that $x and $y overlap when (
-  ($x x-intersects $y)
+  (($x is visible) And ($y is visible))
   And
-  ($x y-intersects $y)
+  (
+    ($x x-intersects $y)
+    And
+    ($x y-intersects $y)
+  )
 ).
 
 # Define the negation to simplify the grammar

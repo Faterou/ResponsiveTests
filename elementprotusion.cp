@@ -1,19 +1,26 @@
 We say that $child is horizontally inside $parent when (
-  (($child's left is greater than $parent's left) Or ($child's left equals $parent's left))
+  ($child's left is greater than ($parent's left - 2))
   And
-  (($child's right is less than $parent's right) Or ($child's right equals $parent's right))
+  ($child's right is less than ($parent's right + 2))
 ).
 
 We say that $child is vertically inside $parent when (
-  (($child's top is greater than $parent's top) Or ($child's top equals $parent's top))
+  ($child's top is greater than ($parent's top - 2))
   And
-  (($child's bottom is less than $parent's bottom) Or ($child's bottom equals $parent's bottom))
+  ($child's bottom is less than ($parent's bottom + 2))
+).
+
+We say that $x is visible when (
+  Not ( $x's display is "none" )
 ).
 
 We say that $child is fully inside $parent when (
-  ($child is horizontally inside $parent)
-  And
-  ($child is vertically inside $parent)
+  If ( ($child is visible) And ($parent is visible) ) Then
+  (
+    ($child is horizontally inside $parent)
+    And
+    ($child is vertically inside $parent)
+  )
 ).
 
 """
