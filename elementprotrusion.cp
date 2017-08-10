@@ -24,12 +24,12 @@ We say that $child is fully inside $parent when (
 ).
 
 """
-  @name Element protusion
+  @name Element protrusion
   @description Every child element that is fully inside its parent should remain inside it next
   @severity Warning
 """
 Always (
-  For each $x in $(*) (
+  For each $x in $(body *) (
     For each $y in $($x > *) (
       If ($y is fully inside $x) Then (
         Next (

@@ -12,7 +12,7 @@ We say that $x is fully inside the viewport when (
 ).
 
 """
-  @name Inside viewport
+  @name Viewport Protrusion
   @description All items that were inside the viewport should remain inside it
   @severity Warning
 """

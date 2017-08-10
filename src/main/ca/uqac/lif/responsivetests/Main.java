@@ -185,9 +185,13 @@ public class Main{
 		builder.crawlRules().insertRandomDataInInputForms(false);
 		
 		CorniSelWebDriverBrowserBuilder corniSelBrowserBuilder = new CorniSelWebDriverBrowserBuilder(properties);
-		corniSelBrowserBuilder.addEvaluationListener(new CorniSelWebDriverListener(outputFilename, screenshotsDirectory));
-		
-		builder.addPlugin(new OnNewStateSizeChanger(new Dimension(lowerBound,1000), new Dimension(upperBound,1000), interval));
+		OnNewStateSizeChanger onNewStatePlugin = new OnNewStateSizeChanger(new Dimension(lowerBound,1000),
+				new Dimension(upperBound,1000), 
+				interval,
+				outputFilename,
+				screenshotsDirectory);
+		corniSelBrowserBuilder.addEvaluationListener(onNewStatePlugin);
+		builder.addPlugin(onNewStatePlugin);
 		
 		if(browser.equals("chrome"))
 		{
