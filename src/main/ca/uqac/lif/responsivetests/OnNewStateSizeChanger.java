@@ -34,6 +34,8 @@ public class OnNewStateSizeChanger implements Plugin, OnNewStatePlugin, OnRevisi
 	private String m_filename;
 	private String m_screenshotsDirectory;
 	private int m_counter = 0;
+	private double m_begin;
+	private double m_end;
 	private double m_lastExecTime;
 
 	public OnNewStateSizeChanger(Dimension minimumDimension, Dimension maximumDimension, 
@@ -45,6 +47,8 @@ public class OnNewStateSizeChanger implements Plugin, OnNewStatePlugin, OnRevisi
 		
 		m_filename = filename;
 		m_screenshotsDirectory = screenshotsDirectoryPath;
+		m_begin = 0;
+		m_end = 0;
 		m_lastExecTime = 0;
 		
 		try {
@@ -75,10 +79,8 @@ public class OnNewStateSizeChanger implements Plugin, OnNewStatePlugin, OnRevisi
 			m_initialDimension = driver.manage().window().getSize();
 			driver.manage().window().setSize(m_maximumDimension);
 		}
-		double begin = (double)System.currentTimeMillis();
+		m_begin = (double)System.currentTimeMillis();
 		driver.evaluateAll(null);
-		double end = (double)System.currentTimeMillis();
-		m_lastExecTime = end - begin;
 		
 		//Go to lower bound with interval
 		while(driver.manage().window().getSize().width - m_interval >= m_minimumDimension.width) {
@@ -90,6 +92,7 @@ public class OnNewStateSizeChanger implements Plugin, OnNewStatePlugin, OnRevisi
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			m_begin = (double)System.currentTimeMillis();
 			driver.evaluateAll(null);
 		}
 		
@@ -112,6 +115,9 @@ public class OnNewStateSizeChanger implements Plugin, OnNewStatePlugin, OnRevisi
 
 	@Override
 	public void evaluationEvent(CorniSelWebDriver driver, Interpreter interpreter) {
+		m_end = (double)System.currentTimeMillis();
+		m_lastExecTime = m_end - m_begin;
+		
 		Map<StatementMetadata,Verdict> verdicts = interpreter.getVerdicts();
 		String currentURL = driver.getCurrentUrl();
 		String width = String.valueOf(driver.manage().window().getSize().getWidth());
